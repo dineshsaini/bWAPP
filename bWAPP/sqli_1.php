@@ -142,7 +142,7 @@ if(isset($_GET["title"]))
 
     $sql = "SELECT * FROM movies WHERE title LIKE '%" . sqli($title) . "%'";
 
-    $recordset = mysqli_query($link, $sql);
+    $recordset = mysql_query($sql, $link);
 
     if(!$recordset)
     {
@@ -153,7 +153,7 @@ if(isset($_GET["title"]))
 
         <tr height="50">
 
-            <td colspan="5" width="580"><?php die("Error: " . mysqli_error($link)); ?></td>
+            <td colspan="5" width="580"><?php die("Error: " . mysql_error()); ?></td>
             <!--
             <td></td>
             <td></td>
@@ -166,10 +166,10 @@ if(isset($_GET["title"]))
 
     }
 
-    if(mysqli_num_rows($recordset) != 0)
+    if(mysql_num_rows($recordset) != 0)
     {
 
-        while($row = mysqli_fetch_array($recordset))         
+        while($row = mysql_fetch_array($recordset))         
         {
 
             // print_r($row);
@@ -211,7 +211,7 @@ if(isset($_GET["title"]))
 
     }
 
-    mysqli_close($link);
+    mysql_close($link);
 
 }
 
