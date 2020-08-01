@@ -24,7 +24,7 @@ include("security_level_check.php");
 include("functions_external.php");
 include("connect.php");
 
-function sqli($data)
+function sqli($link, $data)
 {
 
     switch ($_COOKIE["security_level"])
@@ -42,7 +42,7 @@ function sqli($data)
 
         case "2" :
 
-            $data = sqli_check_2($data);
+            $data = sqli_check_2($link, $data);
             break;
 
         default :
@@ -61,16 +61,16 @@ if(!empty($_GET["title"]))
     $title = $_GET["title"];
 
     // Constructs the query
-    $sql = "SELECT * FROM movies WHERE title LIKE '%" . sqli($title) . "%'";
+    $sql = "SELECT * FROM movies WHERE title LIKE '%" . sqli($link, $title) . "%'";
 
     // Queries the database
-    $recordset = mysql_query($sql, $link);
+    $recordset = mysqli_query($link, $sql);
 
     // Fetches the result
-    if(mysql_num_rows($recordset) != 0)
+    if(mysqli_num_rows($recordset) != 0)
     {
 
-        while($row = mysql_fetch_array($recordset))
+        while($row = mysqli_fetch_array($recordset))
         {
 
             $movies[] = $row;
