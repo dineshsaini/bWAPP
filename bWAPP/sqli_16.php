@@ -27,7 +27,7 @@ include("connect.php");
 
 $message = "";
 
-function sqli($data)
+function sqli($link, $data)
 {
 
     switch($_COOKIE["security_level"])
@@ -45,7 +45,7 @@ function sqli($data)
 
         case "2" :
 
-            $data = sqli_check_2($data);
+            $data = sqli_check_2($link, $data);
             break;
 
         default :
@@ -135,29 +135,29 @@ function sqli($data)
     {
 
         $login = $_POST["login"];
-        $login = sqli($login);
+        $login = sqli($link, $login);
 
         $password = $_POST["password"];
-        $password = sqli($password);
+        $password = sqli($link, $password);
         $password = hash("sha1", $password, false);
 
         $sql = "SELECT * FROM users WHERE login = '" . $login . "'";
 
         // echo $sql;
 
-        $recordset = mysql_query($sql, $link);
+        $recordset = mysqli_query($link, $sql);
 
         if(!$recordset)
         {
 
-            die("Error: " . mysql_error());
+            die("Error: " . mysqli_error($link));
 
         }
 
         else
         {
 
-            $row = mysql_fetch_array($recordset);
+            $row = mysqli_fetch_array($recordset);
 
             if($row["login"] && $password == $row["password"])
             {
@@ -177,7 +177,7 @@ function sqli($data)
 
         }
 
-        mysql_close($link);
+        mysqli_close($link);
 
     }
 
