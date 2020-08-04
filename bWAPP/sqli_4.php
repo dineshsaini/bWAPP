@@ -22,7 +22,7 @@ include("selections.php");
 include("functions_external.php");
 include("connect.php");
 
-function sqli($data)
+function sqli($link, $data)
 {
 
     switch($_COOKIE["security_level"])
