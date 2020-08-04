@@ -40,7 +40,7 @@ function sqli($data)
 
         case "2" :
 
-            $data = sqli_check_2($data);
+            $data = sqli_check_2($link, $data);
             break;
 
         default :
@@ -128,9 +128,9 @@ function sqli($data)
 
         $title = $_REQUEST["title"];
 
-        $sql = "SELECT * FROM movies WHERE title = '" . sqli($title) . "'";
+        $sql = "SELECT * FROM movies WHERE title = '" . sqli($link, $title) . "'";
 
-        $recordset = mysql_query($sql, $link);
+        $recordset = mysqli_query($link, $sql);
 
         if(!$recordset)
         {
@@ -140,7 +140,7 @@ function sqli($data)
 
         }
 
-        if(mysql_num_rows($recordset) != 0)
+        if(mysqli_num_rows($recordset) != 0)
         {
 
             echo "The movie exists in our database!";
@@ -154,7 +154,7 @@ function sqli($data)
 
         }
 
-        mysql_close($link);
+        mysqli_close($link);
 
     }
 
