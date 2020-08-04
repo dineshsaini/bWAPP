@@ -25,7 +25,7 @@ include("connect.php");
 // Error handling
 error_reporting(0);
 
-function sqli($data)
+function sqli($link, $data)
 {
 
     switch($_COOKIE["security_level"])
@@ -43,7 +43,7 @@ function sqli($data)
 
         case "2" :
 
-            $data = sqli_check_2($data);
+            $data = sqli_check_2($link, $data);
             break;
 
         default :
@@ -62,14 +62,14 @@ if(isset($_REQUEST["title"]))
 
     $title = $_REQUEST["title"];
 
-    $sql = "SELECT * FROM movies WHERE title = '" . sqli($title) . "'";
+    $sql = "SELECT * FROM movies WHERE title = '" . sqli($link, $title) . "'";
 
-    $recordset = mysql_query($sql, $link);
+    $recordset = mysqli_query($link, $sql);
 
-    if($recordset and mysql_num_rows($recordset) != 0)
+    if($recordset and mysqli_num_rows($recordset) != 0)
     {
 
-        $row = mysql_fetch_array($recordset);
+        $row = mysqli_fetch_array($recordset);
 
         $movie = $row["title"];
 
@@ -77,9 +77,9 @@ if(isset($_REQUEST["title"]))
 
         $sql = "SELECT email FROM users WHERE login = '" . $login . "'";
 
-        $recordset = mysql_query($sql, $link);
+        $recordset = mysqli_query($link, $sql);
 
-        $row = mysql_fetch_array($recordset);
+        $row = mysqli_fetch_array($recordset);
 
         $email = $row["email"];
 
@@ -102,7 +102,7 @@ if(isset($_REQUEST["title"]))
 
     }
 
-    mysql_close($link);
+    mysqli_close($link);
 
 }
 
