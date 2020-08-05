@@ -22,7 +22,7 @@ include("selections.php");
 include("functions_external.php");
 include("connect.php");
 
-function sqli($data)
+function sqli($link, $data)
 {
 
     switch($_COOKIE["security_level"])
@@ -40,7 +40,7 @@ function sqli($data)
         
         case "2" :            
                        
-            $data = sqli_check_2($data);            
+            $data = sqli_check_2($link, $data);            
             break;
         
         default : 
@@ -120,10 +120,10 @@ function sqli($data)
             // Selects all the records
             $sql = "SELECT * FROM movies";
 
-            $recordset = mysql_query($sql, $link);
+            $recordset = mysqli_query($link, $sql);
 
             // Fills the 'select' object
-            while($row = mysql_fetch_array($recordset))
+            while($row = mysqli_fetch_array($recordset))
             {
 
 ?>
@@ -132,7 +132,6 @@ function sqli($data)
 
             }
 
-            mysql_close($link);
 
 ?>
 
@@ -156,12 +155,13 @@ if(isset($_REQUEST["title"]))
     $client = new nusoap_client("http://localhost/bWAPP/ws_soap.php");
 
     // Calls the SOAP function
-    $tickets_stock = $client->call("get_tickets_stock", array("title" => sqli($_REQUEST["title"])));
+    $tickets_stock = $client->call("get_tickets_stock", array("title" => sqli($link, $_REQUEST["title"])));
 
     echo "We have <b>" . $tickets_stock . "</b> movie tickets available in our stock.";
 
 }
 
+mysqli_close($link);
 ?>
 
 </div>

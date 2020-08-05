@@ -3,12 +3,11 @@
 // SOAP function
 function get_tickets_stock($title)
 {
-
 	include("connect.php");        
 	$sql = "SELECT tickets_stock FROM movies WHERE title = '" . $title . "'";
-	$recordset = mysql_query($sql, $link);
-        $row = mysql_fetch_array($recordset);
-        mysql_close($link);
+	$recordset = mysqli_query($link, $sql);
+        $row = mysqli_fetch_array($recordset);
+        mysqli_close($link);
 	return $row["tickets_stock"];
 
 }
@@ -33,8 +32,8 @@ array("tickets_stock" => "xsd:integer"),
 "urn:tickets_stock",
 "urn:tickets_stock#get_tickets_stock");
 // Checks if $HTTP_RAW_POST_DATA is initialized. If it is not, it initializes it with an empty string.
-$HTTP_RAW_POST_DATA = isset($HTTP_RAW_POST_DATA) ? $HTTP_RAW_POST_DATA : "";
+$HTTP_RAW_POST_DATA = isset($HTTP_RAW_POST_DATA) ? $HTTP_RAW_POST_DATA : "-1";
 // Calls the service. The web request is passed to the service from the $HTTP_RAW_POST_DATA variable.
-$server->service($HTTP_RAW_POST_DATA);
+$server->service(file_get_contents("php://input"));
 
 ?>
