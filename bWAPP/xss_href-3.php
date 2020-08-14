@@ -44,21 +44,21 @@ if(isset($_GET["name"]) && isset($_GET["movie"]) && isset($_GET["action"]) && $_
 
         $movie = $_REQUEST["movie"];
 
-        $sql = "SELECT * FROM movies WHERE id = '" . sqli_check_2($movie) . "'";
+        $sql = "SELECT * FROM movies WHERE id = '" . sqli_check_2($link, $movie) . "'";
 
-        $recordset = mysql_query($sql, $link);
+        $recordset = mysqli_query($link, $sql);
 
         if(!$recordset)
         {
 
-            die("Error: " . mysql_error());  
+            die("Error: " . mysqli_error($link));  
 
         }
 
-        if(mysql_num_rows($recordset) != 0)
+        if(mysqli_num_rows($recordset) != 0)
         {    
 
-            while($row = mysql_fetch_array($recordset))         
+            while($row = mysqli_fetch_array($recordset))         
             {
 
                 // print_r($row);
@@ -77,7 +77,7 @@ if(isset($_GET["name"]) && isset($_GET["movie"]) && isset($_GET["action"]) && $_
 
         }
         
-        mysql_close($link);
+        mysqli_close($link);
 
     }
 
