@@ -32,6 +32,7 @@ if($_COOKIE["security_level"] == "1" or $_COOKIE["security_level"] == "2")
     $data.= "<!DOCTYPE cross-domain-policy SYSTEM \"http://www.macromedia.com/xml/dtds/cross-domain-policy.dtd\">\n";
     $data.= "<cross-domain-policy>\n";
     $data.= "  <allow-access-from domain=\"" . $dn . "\" />\n";
+    $data.= "  <allow-access-from domain=\"itsecgames.com\" />\n";
     $data.= "</cross-domain-policy>";
 
 }
