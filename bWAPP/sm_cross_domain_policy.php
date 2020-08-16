@@ -26,11 +26,12 @@ $handle = fopen($file, "w") or die("Cannot open file: " . $file);
 
 if($_COOKIE["security_level"] == "1" or $_COOKIE["security_level"] == "2")
 {
-
+    // getting only first up ip address, if names are configures then change $dn accordingly.
+    $dn = shell_exec("ip -f inet -br addr|grep -i 'UP'|sed 's/\s\+/,/g'|cut -d, -f3|cut -d/ -f1|head -n1");
     $data = "<?xml version=\"1.0\"?>\n";
     $data.= "<!DOCTYPE cross-domain-policy SYSTEM \"http://www.macromedia.com/xml/dtds/cross-domain-policy.dtd\">\n";
     $data.= "<cross-domain-policy>\n";
-    $data.= "  <allow-access-from domain=\"itsecgames.com\" />\n";
+    $data.= "  <allow-access-from domain=\"" . $dn . "\" />\n";
     $data.= "</cross-domain-policy>";
 
 }
@@ -108,7 +109,8 @@ fwrite($handle, $data);
     <p>Check the cross-domain policy file, and try to the steal the <a href="secret.php" target="_blank">secret</a>...</p>
     
     <p>HINT: <a href="../evil/xdx.php" target="_blank">Flash</a> and Silverlight applications are the source of all evil!</p>
-
+    <p>Check log file: <a href="../evil/xdx.log">xdx.log</a></p>
+    
 </div>
 
 <div id="side">    
